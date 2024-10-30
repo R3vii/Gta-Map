@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mapa GTA na pełnym ekranie</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* Resetowanie marginesów i ustawienie pełnej wysokości dla HTML i BODY */
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    /* Ustawienie mapy na pełną wysokość i szerokość */
+    #map {
+      height: 100vh; /* 100% wysokości widoku */
+      width: 100vw;  /* 100% szerokości widoku */
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  // Ustal wymiary obrazu mapy (np. 4096x4096)
+  var mapWidth = 4096, mapHeight = 4096;
+
+  // Inicjalizacja mapy Leaflet
+  var map = L.map('map', {
+    crs: L.CRS.Simple, // Używamy CRS.Simple do map obrazowych
+    minZoom: -2,
+    maxZoom: 2
+  });
+
+  // Ustawienie granic obrazu mapy GTA
+  var bounds = [[0, 0], [mapHeight, mapWidth]];
+
+  // Dodanie obrazu mapy jako warstwy tła
+  L.imageOverlay('Mapa.png', bounds).addTo(map);
+  map.fitBounds(bounds);
+
+  // Dodanie przykładowych markerów z linkami do zdjęć
+  var locations = [
+    {x: 1000, y: 1500, url: 'link-do-zdjecia1.jpg'}, // Zmień na właściwy link
+    {x: 2000, y: 2500, url: 'link-do-zdjecia2.jpg'}  // Zmień na właściwy link
+  ];
+
+  locations.forEach(function(location) {
+    // Przeliczenie współrzędnych obrazu na współrzędne mapy
+    var latLng = map.unproject([location.x, location.y], map.getMaxZoom());
+    var marker = L.marker(latLng).addTo(map);
+    marker.on('click', function() {
+      window.open(location.url, '_blank'); // otwiera zdjęcie w nowej karcie
+    });
+  });
+
+  // Funkcja wyświetlająca współrzędne klikniętego punktu
+  map.on('click', function(event) {
+    var clickedPoint = map.project(event.latlng, map.getMaxZoom());
+    console.log("Kliknięte współrzędne pikseli: x=" + clickedPoint.x + ", y=" + clickedPoint.y);
+  });
+</script>
+
+</body>
+</html>
+
