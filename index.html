@@ -6,41 +6,20 @@
     <title>Interaktywna Mapa GTA</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+        body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        #map { width: 100%; height: 100vh; }
+        #button-container, #coordinates, #counter, .footer-info {
+            position: absolute; background: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 5px; z-index: 1000;
         }
-        #map {
-            width: 100%;
-            height: 100vh;
-        }
-        #button-container {
-            position: absolute;
-            top: 10px;
-            left: 50px;
-            z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 5px;
-            border-radius: 5px;
-        }
-        #coordinates {
-            position: absolute; 
-            top: 50px; 
-            left: 50px; 
-            background: rgba(255, 255, 255, 0.8); 
-            padding: 10px; 
-            border-radius: 5px; 
-            z-index: 1000;
-        }
-        #counter {
-            position: absolute; 
-            top: 100px; 
-            left: 10px; 
-            background: rgba(255, 255, 255, 0.8); 
-            padding: 10px; 
-            border-radius: 5px; 
-            z-index: 1000;
+        #button-container { top: 10px; left: 50px; }
+        #coordinates { top: 50px; left: 50px; }
+        #counter { top: 100px; left: 10px; }
+        /* Dodajemy stopkę w prawym dolnym rogu */
+        .footer-info {
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8em;
+            text-align: right;
         }
     </style>
 </head>
@@ -52,120 +31,111 @@
     <button onclick="changeMap('MapaSatelita.jpg')">Mapa 3</button>
 </div>
 
-<div id="coordinates">
-    Współrzędne: <span id="coordsDisplay">brak</span>
-</div>
-
-<div id="counter">
-    Znalezione Mumie: <span id="markedCount">0</span> / <span id="totalCount">0</span>
-</div>
-
+<div id="coordinates">Współrzędne: <span id="coordsDisplay">brak</span></div>
+<div id="counter">Znalezione Mumie: <span id="markedCount">0</span> / <span id="totalCount">0</span></div>
 <div id="map"></div>
 
+<!-- Dodajemy stopkę z informacjami o autorze i dacie -->
+<div class="footer-info">
+    Twórca: <strong>R3vii</strong><br>
+    Ostatnia modyfikacja: <span id="lastModified">31.10.2024  16:51</span>
+</div>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="markersData.js"></script>
 <script>
-    // Inicjalizacja mapy
-    var map = L.map('map', {
-        crs: L.CRS.Simple,
-        minZoom: -1
-    });
+    console.log("Markers Data:", markersData);
 
-    // Ustal granice mapy w pikselach (np. 8192x8192)
+    var map = L.map('map', { crs: L.CRS.Simple, minZoom: -1 });
     var bounds = [[0, 0], [8192, 8192]];
-
-    // Dodanie pierwszej mapy jako tło
     var imageUrl = 'Mapa.png'; 
     var imageLayer = L.imageOverlay(imageUrl, bounds).addTo(map);
     map.fitBounds(bounds);
 
-    // Współrzędne markerów
-    var markers = [
-        { id: 'Mumia_1', lat: 2106.74, lng: 3169.58, title: 'Mumia_1', imageUrl: 'Mumia1.png' },
-        { id: 'Mumia_2', lat: 2165.49, lng: 3641.83, title: 'Mumia_2', imageUrl: 'Mumia2.png' },
-        { id: 'Mumia_3', lat: 2270.75, lng: 3990.00, title: 'Mumia_3', imageUrl: 'Mumia3.png' },
-        { id: 'Mumia_4', lat: 2260.88, lng: 3939.00, title: 'Mumia_4', imageUrl: 'Mumia4.png' },
-        { id: 'Mumia_5', lat: 2091.38, lng: 4501.75, title: 'Mumia_5', imageUrl: 'Mumia5.png' },
-        { id: 'Mumia_6', lat: 2190.88, lng: 4529.00, title: 'Mumia_6', imageUrl: 'Mumia5_6.png' },
-        { id: 'Mumia_7', lat: 2311.13, lng: 4483.38, title: 'Mumia_7', imageUrl: 'Mumia6.png' },
-        { id: 'Mumia_8', lat: 2536.00, lng: 4594.88, title: 'Mumia_8', imageUrl: 'Mumia7.png' },
-        { id: 'Mumia_9', lat: 2591.63, lng: 4702.13, title: 'Mumia_9', imageUrl: 'Mumia8.png' },
-        { id: 'Mumia_10', lat: 2819.75, lng: 4470.63, title: 'Mumia_10', imageUrl: 'Mumia9.png' },
-        { id: 'Mumia_11', lat: 2722.63, lng: 4481.13, title: 'Mumia_11', imageUrl: 'Mumia10.png' },
-        { id: 'Mumia_12', lat: 3471.50, lng: 4890.00, title: 'Mumia_12', imageUrl: 'Mumia11.png' },
-        { id: 'Mumia_13', lat: 2845.63, lng: 3502.88, title: 'Mumia_13', imageUrl: 'Mumia12.png' },
-        { id: 'Mumia_14', lat: 2656.00, lng: 3006.50, title: 'Mumia_14', imageUrl: 'Mumia13.png' },
-        { id: 'Mumia_15', lat: 2593.25, lng: 3527.00, title: 'Mumia_15', imageUrl: 'Mumia14.png' },
-        { id: 'Mumia_16', lat: 1926.00, lng: 2634.38, title: 'Mumia_16', imageUrl: 'Mumia15.png' },
-        { id: 'Mumia_17', lat: 1923.53, lng: 2632.28, title: 'Mumia_17', imageUrl: 'Mumia15.png' },
-        { id: 'Mumia_18', lat: 3509.50, lng: 5334.00, title: 'Mumia_18', imageUrl: 'Mumia18.png' },
-    ];
-
-    // Inicjalizowanie licznika
-    var totalCount = markers.length;
+    var totalCount = markersData.reduce((count, marker) => count + (marker.countAs || 1), 0);
     var markedCount = 0;
+    var markers = {};
 
-    // Funkcja do dodawania znaczników
-    function addMarker(marker) {
-        var visited = localStorage.getItem(marker.id) === 'true';
+    function addMarker(markerData) {
+        var visited = localStorage.getItem(markerData.id) === 'true';
         var iconUrl = visited ? 'Pinezka.png' : 'Pinezka2.png';
 
-        var m = L.marker([marker.lat, marker.lng], {
+        var marker = L.marker([markerData.lat, markerData.lng], {
             icon: L.icon({
                 iconUrl: iconUrl,
                 iconSize: [50, 50],
                 iconAnchor: [15, 50],
                 popupAnchor: [0, -40],
             })
-        }).addTo(map)
-        .bindPopup(marker.title + (visited ? ' (Znaleziona)' : '') + `<br><a href="${marker.imageUrl}" target="_blank"><img src="${marker.imageUrl}" alt="${marker.title}" style="width:100px; height:auto;"></a>`);
+        }).addTo(map);
 
-        // Zdarzenie kliknięcia na znacznik
-        m.on('click', function() {
-            visited = !visited; 
-            localStorage.setItem(marker.id, visited); 
-            
-            var newIconUrl = visited ? 'Pinezka.png' : 'Pinezka2.png';
-            m.setIcon(L.icon({
-                iconUrl: newIconUrl,
-                iconSize: [50, 50],
-                iconAnchor: [15, 50],
-                popupAnchor: [0, -40],
-            }));
+        markers[markerData.id] = marker;
+        updatePopupContent(marker, markerData);
 
-            m.setPopupContent(marker.title + (visited ? ' (Znaleziona)' : '') + `<br><a href="${marker.imageUrl}" target="_blank"><img src="${marker.imageUrl}" alt="${marker.title}" style="width:100px; height:auto;"></a>`);
-            this.openPopup(); 
-
-            // Aktualizacja licznika
-            updateCounter();
+        marker.on('popupopen', function() {
+            document.getElementById(`${markerData.id}-toggle`).onclick = function() {
+                toggleVisited(markerData.id);
+            };
         });
     }
 
-    // Funkcja do aktualizacji licznika
+    function updatePopupContent(marker, markerData) {
+        var visited = localStorage.getItem(markerData.id) === 'true';
+        var statusText = visited ? ' (Znaleziona)' : '';
+        var buttonText = visited ? 'Odznacz' : 'Zaznacz jako znalezione';
+
+        marker.bindPopup(
+            `${markerData.title}${statusText}<br>
+            <a href="${markerData.imageUrl}" target="_blank">
+                <img src="${markerData.imageUrl}" alt="${markerData.title}" style="width:100px; height:auto;">
+            </a><br>
+            <button id="${markerData.id}-toggle">${buttonText}</button>`
+        );
+    }
+
+    function toggleVisited(id) {
+        var visited = localStorage.getItem(id) === 'true';
+        localStorage.setItem(id, !visited);
+
+        var marker = markers[id];
+        var newIconUrl = !visited ? 'Pinezka.png' : 'Pinezka2.png';
+        marker.setIcon(L.icon({
+            iconUrl: newIconUrl,
+            iconSize: [50, 50],
+            iconAnchor: [15, 50],
+            popupAnchor: [0, -40],
+        }));
+
+        var markerData = markersData.find(marker => marker.id === id);
+        updatePopupContent(marker, markerData);
+
+        updateCounter();
+    }
+
     function updateCounter() {
-        markedCount = markers.reduce((count, marker) => count + (localStorage.getItem(marker.id) === 'true' ? 1 : 0), 0);
+        markedCount = markersData.reduce((count, markerData) => {
+            var isVisited = localStorage.getItem(markerData.id) === 'true';
+            var countAs = markerData.countAs || 1;
+            return count + (isVisited ? countAs : 0);
+        }, 0);
+        
         document.getElementById('markedCount').innerText = markedCount;
         document.getElementById('totalCount').innerText = totalCount;
     }
 
-    // Dodanie wszystkich znaczników
-    markers.forEach(addMarker);
-    updateCounter(); // Inicjalizacja licznika po dodaniu znaczników
+    markersData.forEach(addMarker);
+    updateCounter();
 
-    // Funkcja do zmiany mapy
     function changeMap(mapName) {
         imageLayer.setUrl(mapName);
     }
 
-    // Nasłuchuj kliknięcia w mapę
     map.on('click', function(e) {
         var clickedLat = e.latlng.lat;
         var clickedLng = e.latlng.lng;
-        console.log('Współrzędne kliknięcia:', clickedLat, clickedLng);
         document.getElementById('coordsDisplay').innerText = `(${clickedLat.toFixed(2)}, ${clickedLng.toFixed(2)})`;
     });
-
 </script>
 
 </body>
 </html>
-
