@@ -26,7 +26,6 @@ var markersData = [
     { id: 'Mumia_26', lat: 1927.38, lng: 2672.38, title: 'Mumia_26', imageUrl: 'Mumia26.png', countAs: 1 },
     { id: 'Mumia_27', lat: 2824.38, lng: 4463.50, title: 'Mumia_27', imageUrl: 'Mumia27.png', countAs: 1 },
     { id: 'Mumia_28', lat: 2775.25, lng: 4436.25, title: 'Mumia_28', imageUrl: 'Mumia28.png', countAs: 1 },
-        //Nowe
     { id: 'Mumia_29', lat: 6697.50, lng: 3517.00, title: 'Mumia_29', imageUrl: 'Mumia29.png', countAs: 1 },
 
 ];
