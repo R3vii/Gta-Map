@@ -14,7 +14,6 @@
         #button-container { top: 10px; left: 50px; }
         #coordinates { top: 50px; left: 50px; }
         #counter { top: 100px; left: 10px; }
-        /* Dodajemy stopkę w prawym dolnym rogu */
         .footer-info {
             bottom: 10px;
             right: 10px;
@@ -35,10 +34,9 @@
 <div id="counter">Znalezione Mumie: <span id="markedCount">0</span> / <span id="totalCount">0</span></div>
 <div id="map"></div>
 
-<!-- Dodajemy stopkę z informacjami o autorze i dacie -->
 <div class="footer-info">
     Twórca: <strong>R3vii</strong><br>
-    Ostatnia modyfikacja: <span id="lastModified">01.11.2024  15:30</span>
+    Ostatnia modyfikacja: <span id="lastModified">31.10.2024 16:51</span>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -46,8 +44,15 @@
 <script>
     console.log("Markers Data:", markersData);
 
-    var map = L.map('map', { crs: L.CRS.Simple, minZoom: -1 });
     var bounds = [[0, 0], [8192, 8192]];
+    var map = L.map('map', {
+        crs: L.CRS.Simple,
+        minZoom: -3,
+        maxZoom: 5,            // Zwiększamy maxZoom, aby umożliwić większe przybliżenie
+        maxBounds: bounds,
+        maxBoundsViscosity: 1
+    });
+
     var imageUrl = 'Mapa.png'; 
     var imageLayer = L.imageOverlay(imageUrl, bounds).addTo(map);
     map.fitBounds(bounds);
