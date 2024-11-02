@@ -25,9 +25,10 @@
 <body>
 
 <div id="button-container">
-    <button onclick="changeMap('Mapa.png')">Mapa 1</button>
-    <button onclick="changeMap('MapaRoadMap.webp')">Mapa 2</button>
-    <button onclick="changeMap('MapaSatelita.jpg')">Mapa 3</button>
+    <button onclick="changeMap('Mapa_Gra.png')">Mapa 1</button>
+    <button onclick="changeMap('Mapa.png')">Mapa 2</button>
+    <button onclick="changeMap('MapaRoadMap.webp')">Mapa 3</button>
+    <button onclick="changeMap('MapaSatelita.jpg')">Mapa 4</button>
 </div>
 
 <div id="coordinates">Współrzędne: <span id="coordsDisplay">brak</span></div>
@@ -36,7 +37,7 @@
 
 <div class="footer-info">
     Twórca: <strong>R3vii</strong><br>
-    Ostatnia modyfikacja: <span id="lastModified">01.11.2024 22:06</span>
+    Ostatnia modyfikacja: <span id="lastModified">02.11.2024 2:51</span>
 </div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -53,7 +54,7 @@
         maxBoundsViscosity: 1
     });
 
-    var imageUrl = 'Mapa.png'; 
+    var imageUrl = 'Mapa_Gra.png'; 
     var imageLayer = L.imageOverlay(imageUrl, bounds).addTo(map);
     map.fitBounds(bounds);
 
