@@ -91,7 +91,7 @@ var markersData = [
     { id: 'Mumia_94', lat: 4088.13, lng: 4317.75, title: 'Mumia_94', imageUrl: 'Mumia94.png', countAs: 1 },
     { id: 'Mumia_95', lat: 4129.25, lng: 4762.50, title: 'Mumia_95', imageUrl: 'Mumia95.png', countAs: 1 },
     { id: 'Mumia_96_97', lat: 5085.25, lng: 5476.25, title: 'Mumia_96_97', imageUrl: 'Mumia96_97.jpg', countAs: 2 },
-    { id: 'Mumia_98', lat: 6959.00, lng: 4745.00, title: 'Mumia_98', imageUrl: 'Mumia98.jpg', countAs: 1 },
+    { id: 'Mumia_98', lat: 6959.00, lng: 4745.00, title: 'Mumia_98', imageUrl: 'Mumia98.png', countAs: 1 },
     { id: 'Mumia_99', lat: 1622.50, lng: 3392.50, title: 'Mumia_99', imageUrl: 'Mumia99.png', countAs: 1 },
     { id: 'Mumia_100', lat: 1598.50, lng: 3362.00, title: 'Mumia_100', imageUrl: 'Mumia100.png', countAs: 1 },
 
