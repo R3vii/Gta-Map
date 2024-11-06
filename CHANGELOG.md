@@ -1,7 +1,7 @@
 # 📜 Changelog
 ---
 ## 📅 [0.0.4] - 06.11.2024 00:47
-- Dodano 4 nowe mumie: **102,103_104**
+- Dodano 4 nowe mumie: **102, 103_104, 105**
 ## 📅 [0.0.3] - 05.11.2024 00:02
 - Dodano 1 nową mumię: **102**
 - Naprawiono błąd z mumią: **60** która na mapie dawała 1 znalezioną mumię zamiast 2
