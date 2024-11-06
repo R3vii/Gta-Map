@@ -1,13 +1,13 @@
 # 📜 Changelog
 ---
 ## 📅 [0.0.4] - 06.11.2024 00:47
-- Dodano 4 nowe mumie: **102, 103_104, 105**
+- Dodano 4 nowe mumie: **104_105, 106, 107**
 ## 📅 [0.0.3] - 05.11.2024 00:02
-- Dodano 1 nową mumię: **102**
+- Dodano 1 nową mumię: **103**
 - Naprawiono błąd z mumią: **60** która na mapie dawała 1 znalezioną mumię zamiast 2
 - Poprawiono wizualnie Changelog
 ## 📅 [0.0.2] - 04.11.2024 2:21
-- Dodano 3 nowe mumie: **99, 100, 101**
+- Dodano 3 nowe mumie: **100, 101, 102**
 - Poprawiono zdjęcie mumii **98**
 - Poprawiono pozycję przycisku **Changelog** – teraz nie zasłania przycisków map w wersji mobilnej
 ## 📅 [0.0.1] - 03.11.2024 15:22
