@@ -35,6 +35,57 @@
             color: #000000;
         }
     
+        /* Styl dla modalnego okna powitalnego */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .modal h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .modal p {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
         /* Styl dla nagłówka changeloga */
         #changelog h3 {
             font-size: 1.4em;
@@ -43,7 +94,7 @@
             padding-bottom: 1px;
             border-bottom: 2px solid #000000;
         }
-    
+
         /* Styl sekcji wersji */
         .changelog-version {
             margin-bottom: 15px;
@@ -52,40 +103,46 @@
             border-left: 4px solid #000000;
             border-radius: 5px;
         }
-    
+
         /* Styl dla listy zmian */
         .changelog-version ul {
             padding-left: 20px;
             margin: 10px 0;
             list-style: none;
         }
-    
+
         /* Styl dla elementów listy */
         .changelog-version ul li {
             margin-bottom: 8px;
             display: flex;
             align-items: center;
         }
-    
+
         /* Ikony dla listy */
         .changelog-icon {
             font-size: 1.2em;
             margin-right: 8px;
             color: #333;
         }
-    
+
         .changelog-text {
             font-size: 0.95em;
             color: #000000;
         }
     </style>
-    
-    
-    
 </head>
 <body>
 
-    
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeModal()">&times;</span>
+        <h2>Poszukiwanie Mumii 2024 dobiegło końca!</h2>
+        <p>Wielkie dzięki wszystkim, którzy dołożyli swą cegiełkę w stworzeniu tej mapy. Ogromne podziękowania dla osób, które przesyłały swoje screenshoty z oznaczonymi miejscami danych mumii, zarówno na serwerze organizacji <em>DE</em>, jak i na priv.</p>
+        <p>Choć nie udało się umieścić na mapie wszystkich mumii, cieszę się, że ta inicjatywa pomogła wielu osobom, zwłaszcza tym, którzy nie mieli czasu na samodzielne poszukiwania, a także tym, którym brakowało kilku mumii do skompletowania swoich wymarzonych pojazdów.</p>
+        <p>Jeszcze raz dziękuje wszystkim za zaangażowanie w ten projekt! W przyszłości mam w planach kontynuować tę inicjatywę, wprowadzić nowe funkcje, a także dodać do mapy elementy, które sprawią, że będzie jeszcze bardziej przejrzysta.</p>
+        <p><strong>Do zobaczenia wkrótce! :b</strong></p>
+    </div>
+</div>
 
 <div id="button-container">
     <button onclick="changeMap('Mapa_Gra.png')">Mapa 1</button>
@@ -93,7 +150,6 @@
     <button onclick="changeMap('MapaRoadMap.webp')">Mapa 3</button>
     <button onclick="changeMap('MapaSatelita.jpg')">Mapa 4</button>
 </div>
-
 
 <div id="coordinates">Współrzędne: <span id="coordsDisplay">brak</span></div>
 <div id="counter">Znalezione Mumie: <span id="markedCount">0</span> / <span id="totalCount">0</span></div>
@@ -115,7 +171,17 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="markersData.js"></script>
 <script>
-    console.log("Markers Data:", markersData);
+    window.onload = function() {
+        openModal();
+    };
+
+    function openModal() {
+        document.getElementById("modal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("modal").style.display = "none";
+    }
 
     var bounds = [[0, 0], [8192, 8192]];
     var map = L.map('map', {
@@ -220,7 +286,6 @@
         fetch("CHANGELOG.md")
             .then(response => response.text())
             .then(text => {
-                // Konwersja Markdown na HTML
                 document.getElementById("changelogContent").innerHTML = marked.parse(text);
             })
             .catch(error => document.getElementById("changelogContent").innerText = "Błąd ładowania changeloga.");
@@ -228,17 +293,6 @@
     } else {
         changelog.style.display = "none";
     }}
-
-
-    function loadChangelog() {
-        fetch("CHANGELOG.md")
-            .then(response => response.text())
-            .then(text => {
-                document.getElementById("changelogContent").innerHTML = marked(text);
-            });
-    }
-
-    
 </script>
 
 </body>
